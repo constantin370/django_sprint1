@@ -50,17 +50,13 @@ posts: list[dict] = [
 
 def index(request):
     template = 'blog/index.html'
-    data = {
-        'post': posts[::-1 ]
-        }
+    data = {'post': posts[::-1]}
     return render(request, template, context=data)
 
 
 def post_detail(request, id):
     template = 'blog/detail.html'
-    data = {
-        'post': posts[id]
-    }
+    data = {'post': posts[id]}
     return render(request, template, context=data)
 
 
@@ -83,4 +79,3 @@ def category_posts(request, category_slug):
 #     return render(request,
 #                     template,
 #                     context=data)
-

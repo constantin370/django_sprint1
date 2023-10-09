@@ -50,7 +50,5 @@ posts: list[dict] = [
 
 def homepage(request):
     template = 'homepage/homepage.html'
-    data = {
-        'post': posts[::-1]
-        }
+    data = {'post': posts[::-1]}
     return render(request, template, context=data)
