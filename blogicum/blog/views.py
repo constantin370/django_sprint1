@@ -1,6 +1,6 @@
 from django.shortcuts import render
+from django.http import Http404
 
-# Create your views here.
 
 app_name = 'blog'
 
@@ -49,33 +49,25 @@ posts: list[dict] = [
 
 
 def index(request):
+    '''Функция отображения Ленты записей.'''
     template = 'blog/index.html'
     data = {'post': posts[::-1]}
     return render(request, template, context=data)
 
 
-def post_detail(request, id):
+def post_detail(request, post_id):
+    '''Функция показа записи заданной пользователем.'''
     template = 'blog/detail.html'
-    data = {'post': posts[id]}
-    return render(request, template, context=data)
+    try:
+        if posts[post_id]['id'] == post_id:
+            data = {'post': posts[post_id]}
+            return render(request, template, context=data)
+    except IndexError:
+        raise Http404(f'Ошибка: Запись под номером {post_id} отсутсвует!')
 
 
 def category_posts(request, category_slug):
+    '''Функция показа постов определенной категории.'''
     template = 'blog/category.html'
     context = {'post': category_slug}
-    return render(request, template, context)
-
-
-# def category_posts(request, slug):
-# здесь выводим публикации категорий описаных в словарях
-#     template = 'blog/category.html'
-#     data = {}
-#     for i in range(len(posts)):
-#         if posts[i]['category'] == slug:
-#             data = {
-#                 'slug': slug,
-#                 'things': posts
-#                 }
-#     return render(request,
-#                     template,
-#                     context=data)
+    return render(request, template, context=context)
