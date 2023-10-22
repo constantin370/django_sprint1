@@ -47,14 +47,14 @@ posts: list[dict] = [
 
 
 def index(request):
-    '''Функция отображения Ленты записей.'''
+    """Функция отображения Ленты записей."""
     template = 'blog/index.html'
     data = {'post_list': posts[::-1]}
     return render(request, template, context=data)
 
 
 def post_detail(request, post_id):
-    '''Функция показа записи заданной пользователем.'''
+    """Функция показа записи заданной пользователем."""
     template = 'blog/detail.html'
     check_dict = {post['id']: post for post in posts}
     if post_id not in check_dict:
@@ -65,7 +65,7 @@ def post_detail(request, post_id):
 
 
 def category_posts(request, category_slug):
-    '''Функция показа постов определенной категории.'''
+    """Функция показа постов определенной категории."""
     template = 'blog/category.html'
     data = {'category_posts': category_slug}
     return render(request, template, context=data)
