@@ -2,8 +2,6 @@ from django.shortcuts import render
 from django.http import Http404
 
 
-app_name = 'blog'
-
 posts: list[dict] = [
     {
         'id': 0,
@@ -51,23 +49,23 @@ posts: list[dict] = [
 def index(request):
     '''Функция отображения Ленты записей.'''
     template = 'blog/index.html'
-    data = {'post': posts[::-1]}
+    data = {'post_list': posts[::-1]}
     return render(request, template, context=data)
 
 
 def post_detail(request, post_id):
     '''Функция показа записи заданной пользователем.'''
     template = 'blog/detail.html'
-    try:
-        if posts[post_id]['id'] == post_id:
-            data = {'post': posts[post_id]}
-            return render(request, template, context=data)
-    except IndexError:
+    check_dict = {post['id']: post for post in posts}
+    if post_id not in check_dict:
         raise Http404(f'Ошибка: Запись под номером {post_id} отсутсвует!')
+    else:
+        data = {'post': check_dict[post_id]}
+        return render(request, template, context=data)
 
 
 def category_posts(request, category_slug):
     '''Функция показа постов определенной категории.'''
     template = 'blog/category.html'
-    context = {'post': category_slug}
-    return render(request, template, context=context)
+    data = {'category_posts': category_slug}
+    return render(request, template, context=data)

@@ -1,29 +1,21 @@
 {% extends "base.html" %}
-    {% block title %} {{ post.location }} {{ post.date }} {% endblock %}
+  {% block title %} {{ post.location }} {{ post.date }} {% endblock %}
     {% block content %}
-    <article>
-      <ul>
-        <li>
-          Место: {{ post.location }}              
-        </li>
-        <li>
-          Дата: {{ post.date }}
-        </li>
-        <li>
-          {% comment %} не понимаю как исправить... category сработает
-          только с дополнительным параметрами такими как (not-my-day, travel и т.д.)
-          как записать его, чтобы он автоматически переходил на нужную страницу?! {% URL %}
-          Не понимаю :( {% endcomment %}
-          {% if post.category == 'not-my-day' %} 
-            <a href="http://127.0.0.1:8000/category/not-my-day/"> Категория: {{ post.category }}</a>
-          {% elif post.category == 'travel' %} 
-            <a href="http://127.0.0.1:8000/category/travel/"> Категория: {{ post.category }}</a>
-          {% endif %}
-        </li>
-      </ul>         
-      <p>
-        {{ post.text|linebreaksbr }} <br>
-      </p>          
-    </article>
+      <article>
+        <ul>
+          <li>
+            Место: {{ post.location }}              
+          </li>
+          <li>
+            Дата: {{ post.date }}
+          </li>
+          <li>
+            Категория: <a href="{% url 'blog:category_posts' post.category %}"> {{ post.category }}</a>
+          </li>
+        </ul> 
+        <p>
+          {{ post.text|linebreaksbr }} <br>
+        </p>          
+      </article>
     {% endblock %}                
 </html>
