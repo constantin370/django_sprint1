@@ -53,19 +53,20 @@ def index(request):
     return render(request, template, context=data)
 
 
+CHECK_DICT: dict = {post['id']: post for post in posts}
+
+
 def post_detail(request, post_id):
     """Функция показа записи заданной пользователем."""
     template = 'blog/detail.html'
-    check_dict = {post['id']: post for post in posts}
-    if post_id not in check_dict:
+    if post_id not in CHECK_DICT:
         raise Http404(f'Ошибка: Запись под номером {post_id} отсутсвует!')
-    else:
-        data = {'post': check_dict[post_id]}
-        return render(request, template, context=data)
+    data = {'post': CHECK_DICT[post_id]}
+    return render(request, template, context=data)
 
 
 def category_posts(request, category_slug):
     """Функция показа постов определенной категории."""
     template = 'blog/category.html'
-    data = {'category_posts': category_slug}
+    data = {'appellation': category_slug}
     return render(request, template, context=data)
